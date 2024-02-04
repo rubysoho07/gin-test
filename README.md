@@ -25,6 +25,24 @@ go build
 
 `gin-test`라는 실행 파일이 생성된 것을 볼 수 있습니다.
 
+## AWS SDK 이용하기
+
+핵심 SDK 모듈 다운받기
+
+```shell
+go get github.com/aws/aws-sdk-go-v2
+go get github.com/aws/aws-sdk-go-v2/config
+```
+
+서비스별 SDK 다운받기 ([전체 리스트](https://pkg.go.dev/github.com/aws/aws-sdk-go-v2#section-readme))
+
+```shell
+# S3 기준
+go get github.com/aws/aws-sdk-go-v2/service/s3
+```
+
+[문서](https://aws.github.io/aws-sdk-go-v2/docs/getting-started/#invoke-an-operation)를 참고하여 코드를 작성하면 됨
+
 ## 참고자료
 
 * [Tutorial: Getting started with multi-module workspaces](https://go.dev/doc/tutorial/workspaces)
