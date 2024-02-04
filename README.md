@@ -47,3 +47,4 @@ go get github.com/aws/aws-sdk-go-v2/service/s3
 
 * [Tutorial: Getting started with multi-module workspaces](https://go.dev/doc/tutorial/workspaces)
 * [Gin Web Framework: Quickstart](https://gin-gonic.com/docs/quickstart/)
+* [Getting Started with the AWS SDK for Go V2](https://aws.github.io/aws-sdk-go-v2/docs/getting-started/)
