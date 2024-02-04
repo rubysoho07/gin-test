@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log"
+	"net/http"
 	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -22,7 +23,7 @@ func main() {
 
 	r := gin.Default()
 	r.GET("/ping", func(ctx *gin.Context) {
-		ctx.JSON(200, gin.H{
+		ctx.JSON(http.StatusOK, gin.H{
 			"message": "pong",
 		})
 	})
@@ -42,7 +43,7 @@ func main() {
 			result = append(result, aws.ToString(element.Name))
 		}
 
-		ctx.String(200, strings.Join(result, "\n"))
+		ctx.String(http.StatusOK, strings.Join(result, "\n"))
 	})
 	r.Run()
 }
