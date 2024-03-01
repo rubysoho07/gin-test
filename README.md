@@ -62,9 +62,23 @@ docker exec -i gin-test-mysql mysql  --password=example < test_data.sql
 
 CRUD 관련 내용은 `database.go` 파일 참조
 
+## Redis 실행하기
+
+Dependency 설정
+
+```shell
+go get github.com/redis/go-redis/v9
+```
+
+* Docker Compose로 Redis를 실행할 수 있도록 해 둠
+
+관련 내용은 `redis_example.go` 파일 참조
+
 ## 참고자료
 
 * [Tutorial: Getting started with multi-module workspaces](https://go.dev/doc/tutorial/workspaces)
 * [Gin Web Framework: Quickstart](https://gin-gonic.com/docs/quickstart/)
 * [Getting Started with the AWS SDK for Go V2](https://aws.github.io/aws-sdk-go-v2/docs/getting-started/)
 * [Go-MySQL-Driver](https://github.com/go-sql-driver/mysql?tab=readme-ov-file)
+* [Go Redis Documentation](https://redis.uptrace.dev/guide/go-redis.html)
+* [GitHub gin-contrib/sessions](https://github.com/gin-contrib/sessions): Gin에서 세션 관리할 때 사용

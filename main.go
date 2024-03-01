@@ -18,6 +18,11 @@ func main() {
 
 	defer db.Close()
 
+	// Connect to Redis
+	ConnectRedis()
+
+	defer rdb.Close()
+
 	// Load AWS credentials
 	cfg, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
@@ -57,6 +62,12 @@ func main() {
 		group.POST("/user/insert", InsertData)
 		group.POST("/user/delete/:id", DeleteData)
 		group.POST("/user/update/:id", UpdateData)
+	}
+
+	group_redis := r.Group("/redis")
+	{
+		group_redis.GET("/user/:key", GetDataFromRedis)
+		group_redis.POST("/user/insert", PutDataToRedis)
 	}
 
 	r.Run()
