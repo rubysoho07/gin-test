@@ -13,6 +13,11 @@ import (
 )
 
 func main() {
+	// Connect to DB
+	ConnectDB()
+
+	defer db.Close()
+
 	// Load AWS credentials
 	cfg, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
@@ -45,5 +50,14 @@ func main() {
 
 		ctx.String(http.StatusOK, strings.Join(result, "\n"))
 	})
+
+	group := r.Group("/database")
+	{
+		group.GET("/user/:id", GetData)
+		group.POST("/user/insert", InsertData)
+		group.POST("/user/delete/:id", DeleteData)
+		group.POST("/user/update/:id", UpdateData)
+	}
+
 	r.Run()
 }
