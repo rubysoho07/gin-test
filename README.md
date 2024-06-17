@@ -74,6 +74,24 @@ go get github.com/redis/go-redis/v9
 
 관련 내용은 `redis_example.go` 파일 참조
 
+## Swagger 사용하기
+
+```shell
+# swag 명령어 설치 ($HOME/go/bin 경로가 $PATH에 있는지 확인할 것)
+go install github.com/swaggo/swag/cmd/swag@latest
+
+# 프로젝트 루트 디렉토리로 이동 후 초기화
+swag init
+
+# gin-swagger 패키지 다운로드
+go get -u github.com/swaggo/gin-swagger
+go get -u github.com/swaggo/files
+```
+
+이후 내용은 [gin-swagger](https://github.com/swaggo/gin-swagger) 프로젝트의 문서 참조. 작성 규칙은 [링크](https://github.com/swaggo/swag/blob/master/README.md#declarative-comments-format) 참조
+
+실행하려면 `localhost:8080/swagger/index.html`으로 이동하면 됨
+
 ## 참고자료
 
 * [Tutorial: Getting started with multi-module workspaces](https://go.dev/doc/tutorial/workspaces)
@@ -82,3 +100,4 @@ go get github.com/redis/go-redis/v9
 * [Go-MySQL-Driver](https://github.com/go-sql-driver/mysql?tab=readme-ov-file)
 * [Go Redis Documentation](https://redis.uptrace.dev/guide/go-redis.html)
 * [GitHub gin-contrib/sessions](https://github.com/gin-contrib/sessions): Gin에서 세션 관리할 때 사용
+* [gin-swagger](https://github.com/swaggo/gin-swagger)

@@ -10,7 +10,26 @@ import (
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/gin-gonic/gin"
+
+	docs "gin-test/docs"
+
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
+
+// PingExample godoc
+// @Summary      Show an ping
+// @Description  get ping
+// @Tags         ping
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  map[string]interface{}
+// @Router       /ping [get]
+func ping(g *gin.Context) {
+	g.JSON(http.StatusOK, gin.H{
+		"message": "pong",
+	})
+}
 
 func main() {
 	// Connect to DB
@@ -32,11 +51,13 @@ func main() {
 	client := s3.NewFromConfig(cfg)
 
 	r := gin.Default()
-	r.GET("/ping", func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
-	})
+
+	// Serve Swagger UI
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+	docs.SwaggerInfo.BasePath = "/"
+
+	r.GET("/ping", ping)
 
 	r.GET("/list-buckets", func(ctx *gin.Context) {
 
