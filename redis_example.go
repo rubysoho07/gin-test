@@ -2,8 +2,10 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/redis/go-redis/v9"
@@ -17,8 +19,16 @@ type RedisData struct {
 }
 
 func ConnectRedis() {
+	host := os.Getenv("REDIS_HOST")
+
+	if host == "" {
+		host = "localhost"
+	}
+
+	redis_conn_string := fmt.Sprintf("%s:6379", host)
+
 	rdb = redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
+		Addr:     redis_conn_string,
 		Password: "", // no password set
 		DB:       0,  // use default DB
 	})
