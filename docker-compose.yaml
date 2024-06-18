@@ -1,4 +1,19 @@
 services:
+  service:
+    build:
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: mysql
+    depends_on:
+      redis:
+        condition: service_started
+      mysql:
+        condition: service_healthy
+        restart: true
+
   redis:
     container_name: "gin-test-redis"
     image: "redis:alpine"
@@ -10,7 +25,13 @@ services:
     image: "mysql:8"
     command: --default-authentication-plugin=mysql_native_password
     restart: always
+    volumes:
+      - "./test_data.sql:/docker-entrypoint-initdb.d/test_data.sql"
     environment:
       MYSQL_ROOT_PASSWORD: example
     ports:
       - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 5
