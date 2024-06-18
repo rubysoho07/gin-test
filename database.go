@@ -2,8 +2,10 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -22,7 +24,16 @@ type People struct {
 
 func ConnectDB() {
 	var err error
-	db, err = sql.Open("mysql", "root:example@tcp(localhost:3306)/test_data")
+
+	host := os.Getenv("DB_HOST")
+
+	if host == "" {
+		host = "localhost"
+	}
+
+	db_connection_string := fmt.Sprintf("root:example@tcp(%s)/test_data", host)
+
+	db, err = sql.Open("mysql", db_connection_string)
 	if err != nil {
 		log.Fatal(err)
 	}
