@@ -6,6 +6,7 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . /app/
+ENV GOCACHE=/root/.cache/go-build
 RUN go build
 
 # Use Distroless image to reduce container image size
