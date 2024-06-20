@@ -8,6 +8,8 @@ services:
     environment:
       DB_HOST: mysql
       REDIS_HOST: redis
+    volumes:
+      - "$HOME/.aws/:/root/.aws/"
     depends_on:
       redis:
         condition: service_started
