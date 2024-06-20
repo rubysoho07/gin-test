@@ -1,13 +1,15 @@
-FROM golang:1.21-alpine as builder
+FROM golang:1.21 as builder
 
 WORKDIR /app
 
-COPY . /app/
+COPY go.mod go.sum ./
+RUN go mod download
 
-RUN go get
+COPY . /app/
 RUN go build
 
-FROM golang:1.21-alpine as runner
+# Use Distroless image to reduce container image size
+FROM gcr.io/distroless/base-debian12 as runner
 
 WORKDIR /app
 
