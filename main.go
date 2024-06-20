@@ -17,6 +17,8 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+var client *s3.Client
+
 // PingExample godoc
 // @Summary      Show an ping
 // @Description  get ping
@@ -29,6 +31,31 @@ func ping(g *gin.Context) {
 	g.JSON(http.StatusOK, gin.H{
 		"message": "pong",
 	})
+}
+
+// ListBuckets godoc
+// @Summary      List S3 buckets
+// @Description  S3 Bucket의 리스트를 가져옵니다.
+// @Tags         aws
+// @Produce      plain
+// @Success      200  {string}  string "bucket names"
+// @Router       /list-buckets [get]
+func ListBuckets(ctx *gin.Context) {
+	output, err := client.ListBuckets(context.TODO(), &s3.ListBucketsInput{})
+
+	if err != nil {
+		log.Println(err)
+		ctx.String(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	var result []string
+
+	for _, element := range output.Buckets {
+		result = append(result, aws.ToString(element.Name))
+	}
+
+	ctx.String(http.StatusOK, strings.Join(result, "\n"))
 }
 
 func main() {
@@ -48,7 +75,7 @@ func main() {
 		log.Println(err)
 	}
 	// AWS Client
-	client := s3.NewFromConfig(cfg)
+	client = s3.NewFromConfig(cfg)
 
 	r := gin.Default()
 
@@ -59,25 +86,7 @@ func main() {
 
 	r.GET("/ping", ping)
 
-	r.GET("/list-buckets", func(ctx *gin.Context) {
-
-		// ListBuckets
-		output, err := client.ListBuckets(context.TODO(), &s3.ListBucketsInput{})
-
-		if err != nil {
-			log.Println(err)
-			ctx.String(http.StatusInternalServerError, err.Error())
-			return
-		}
-
-		var result []string
-
-		for _, element := range output.Buckets {
-			result = append(result, aws.ToString(element.Name))
-		}
-
-		ctx.String(http.StatusOK, strings.Join(result, "\n"))
-	})
+	r.GET("/list-buckets", ListBuckets)
 
 	group := r.Group("/database")
 	{
