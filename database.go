@@ -96,18 +96,24 @@ func DeleteData(c *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
+		c.String(http.StatusInternalServerError, err.Error())
+		return
 	}
 
 	delete, err := db.Exec("DELETE FROM people WHERE id = ?;", id)
 
 	if err != nil {
 		log.Println(err)
+		c.String(http.StatusInternalServerError, err.Error())
+		return
 	}
 
 	rows, err := delete.RowsAffected()
 
 	if err != nil {
 		log.Println(err)
+		c.String(http.StatusInternalServerError, err.Error())
+		return
 	}
 
 	c.JSON(http.StatusOK, rows)
@@ -119,6 +125,8 @@ func UpdateData(c *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
+		c.String(http.StatusInternalServerError, err.Error())
+		return
 	}
 
 	// request body in JSON to struct people
@@ -132,12 +140,16 @@ func UpdateData(c *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
+		c.String(http.StatusInternalServerError, err.Error())
+		return
 	}
 
 	rows, err := update.RowsAffected()
 
 	if err != nil {
 		log.Println(err)
+		c.String(http.StatusInternalServerError, err.Error())
+		return
 	}
 
 	c.JSON(http.StatusOK, rows)
