@@ -45,7 +45,7 @@ func main() {
 	// Load AWS credentials
 	cfg, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 	// AWS Client
 	client := s3.NewFromConfig(cfg)
@@ -65,7 +65,9 @@ func main() {
 		output, err := client.ListBuckets(context.TODO(), &s3.ListBucketsInput{})
 
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
+			ctx.String(http.StatusInternalServerError, err.Error())
+			return
 		}
 
 		var result []string

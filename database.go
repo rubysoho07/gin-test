@@ -35,7 +35,7 @@ func ConnectDB() {
 
 	db, err = sql.Open("mysql", db_connection_string)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 }
 
@@ -46,7 +46,7 @@ func GetData(c *gin.Context) {
 	query, err := db.Query("SELECT id, name, age, state FROM people WHERE id = ?;", id)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 
 	// convert query result to struct people
@@ -54,7 +54,7 @@ func GetData(c *gin.Context) {
 	for query.Next() {
 		err := query.Scan(&p.ID, &p.Name, &p.Age, &p.State)
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
 	}
 
@@ -77,14 +77,14 @@ func InsertData(c *gin.Context) {
 	query, err := db.Exec("INSERT INTO people (`name`, `age`, `state`) VALUES (?, ?, ?);", &p.Name, &p.Age, &p.State)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 
 	// Get insert query result
 	id, err := query.LastInsertId()
 
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 
 	c.String(http.StatusOK, "Inserted data with id: %d", id)
@@ -95,19 +95,19 @@ func DeleteData(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 
 	delete, err := db.Exec("DELETE FROM people WHERE id = ?;", id)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 
 	rows, err := delete.RowsAffected()
 
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 
 	c.JSON(http.StatusOK, rows)
@@ -118,7 +118,7 @@ func UpdateData(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 
 	// request body in JSON to struct people
@@ -131,13 +131,13 @@ func UpdateData(c *gin.Context) {
 	update, err := db.Exec("UPDATE people SET name = ?, age = ?, state = ? WHERE id = ?;", &p.Name, &p.Age, &p.State, id)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 
 	rows, err := update.RowsAffected()
 
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 
 	c.JSON(http.StatusOK, rows)

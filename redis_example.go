@@ -40,7 +40,7 @@ func GetDataFromRedis(c *gin.Context) {
 
 	val, err := rdb.Get(context.Background(), key).Result()
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 
 	c.String(http.StatusOK, key+" = "+val)
