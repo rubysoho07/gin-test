@@ -6,7 +6,7 @@ COPY go.mod go.sum ./
 RUN go mod download
 RUN go install github.com/swaggo/swag/cmd/swag@latest
 
-COPY . /app/
+COPY . ./
 RUN swag init
 
 ENV GOCACHE=/root/.cache/go-build
