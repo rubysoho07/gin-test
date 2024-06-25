@@ -15,6 +15,26 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/list-buckets": {
+            "get": {
+                "description": "S3 Bucket의 리스트를 가져옵니다.",
+                "produces": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "aws"
+                ],
+                "summary": "List S3 buckets",
+                "responses": {
+                    "200": {
+                        "description": "bucket names",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/ping": {
             "get": {
                 "description": "get ping",

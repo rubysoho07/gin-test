@@ -1,6 +1,19 @@
 info:
   contact: {}
 paths:
+  /list-buckets:
+    get:
+      description: S3 Bucket의 리스트를 가져옵니다.
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: bucket names
+          schema:
+            type: string
+      summary: List S3 buckets
+      tags:
+      - aws
   /ping:
     get:
       consumes:

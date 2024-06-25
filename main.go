@@ -1,14 +1,8 @@
 package main
 
 import (
-	"context"
-	"log"
 	"net/http"
-	"strings"
 
-	"github.com/aws/aws-sdk-go-v2/aws"
-	"github.com/aws/aws-sdk-go-v2/config"
-	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/gin-gonic/gin"
 
 	docs "gin-test/docs"
@@ -16,8 +10,6 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
-
-var client *s3.Client
 
 // PingExample godoc
 // @Summary      Show an ping
@@ -33,31 +25,6 @@ func ping(g *gin.Context) {
 	})
 }
 
-// ListBuckets godoc
-// @Summary      List S3 buckets
-// @Description  S3 Bucket의 리스트를 가져옵니다.
-// @Tags         aws
-// @Produce      plain
-// @Success      200  {string}  string "bucket names"
-// @Router       /list-buckets [get]
-func ListBuckets(ctx *gin.Context) {
-	output, err := client.ListBuckets(context.TODO(), &s3.ListBucketsInput{})
-
-	if err != nil {
-		log.Println(err)
-		ctx.String(http.StatusInternalServerError, err.Error())
-		return
-	}
-
-	var result []string
-
-	for _, element := range output.Buckets {
-		result = append(result, aws.ToString(element.Name))
-	}
-
-	ctx.String(http.StatusOK, strings.Join(result, "\n"))
-}
-
 func main() {
 	// Connect to DB
 	ConnectDB()
@@ -69,13 +36,7 @@ func main() {
 
 	defer rdb.Close()
 
-	// Load AWS credentials
-	cfg, err := config.LoadDefaultConfig(context.TODO())
-	if err != nil {
-		log.Println(err)
-	}
-	// AWS Client
-	client = s3.NewFromConfig(cfg)
+	InitAWS()
 
 	r := gin.Default()
 
