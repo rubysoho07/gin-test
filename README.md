@@ -92,6 +92,43 @@ go get -u github.com/swaggo/files
 
 실행하려면 `localhost:8080/swagger/index.html`으로 이동하면 됨
 
+## DynamoDB 연동 테스트
+
+`dynamodb_example.go` 파일 참조
+
+### 테이블 생성 및 정리
+
+**테이블 생성**
+
+```shell
+aws dynamodb create-table \
+--table-name goni-test \
+--attribute-definitions AttributeName=mykey,AttributeType=S \
+--key-schema AttributeName=mykey,KeyType=HASH \
+--billing-mode PAY_PER_REQUEST
+
+# 참고: attribute-definitions에 지정한 속성 개수와 key-schema에 지정한 속성 개수가 일치해야 함 (Partition Key / Sort Key)
+```
+
+**테이블 삭제**
+
+```shell
+aws dynamodb delete-table --table-name goni-test
+```
+
+### 필요한 패키지
+
+```shell
+go get github.com/aws/aws-sdk-go-v2/service/dynamodb
+go get github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue
+```
+### 확인하면 좋을 자료
+
+* [Getting started with DynamoDB and the AWS SDKS](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.html)
+* [AWS SDK Go v2 - DynamoDB](https://pkg.go.dev/github.com/aws/aws-sdk-go-v2/service/dynamodb)
+* [AWS SDK Go v2 - dynamodb/attributevalue](https://pkg.go.dev/github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue): Go Type과 DynamoDB AttributeValue 간 변환 (marshalling / unmarshalling)
+* [DynamoDB code examples for the SDK for Go V2](https://github.com/awsdocs/aws-doc-sdk-examples/tree/main/gov2/dynamodb)
+
 ## 참고자료
 
 * [Tutorial: Getting started with multi-module workspaces](https://go.dev/doc/tutorial/workspaces)

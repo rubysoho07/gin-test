@@ -63,5 +63,11 @@ func main() {
 		group_redis.POST("/user/insert", PutDataToRedis)
 	}
 
+	group_ddb := r.Group("/dynamodb")
+	{
+		group_ddb.GET("/user/:key", GetItem)
+		group_ddb.POST("/user/insert", PutItem)
+	}
+
 	r.Run()
 }
