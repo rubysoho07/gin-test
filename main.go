@@ -48,6 +48,7 @@ func main() {
 	r.GET("/ping", ping)
 
 	r.GET("/list-buckets", ListBuckets)
+	r.GET("/get-temp-credential", GetAssumeRole)
 
 	group := r.Group("/database")
 	{
