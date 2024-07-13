@@ -69,5 +69,10 @@ func main() {
 		group_ddb.POST("/user/insert", PutItem)
 	}
 
+	group_t := r.Group("/template")
+	{
+		group_t.POST("/ghaw", GetFileFromTemplate)
+	}
+
 	r.Run()
 }
