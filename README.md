@@ -11,6 +11,16 @@ go get -u github.com/gin-gonic/gin
 
 `go.mod`, `go.sum` 파일이 생성된 것을 확인합니다. 
 
+### 다른 사람들과 협업할 때 어떻게 해야 할까?
+
+아래 명령을 실행하도록 하면 될까?
+
+```shell
+go mod download
+```
+
+(참고) `go get` 명령어는 모듈 업데이트를 진행하기 때문에 `go mod download` 명령을 수행하도록 함
+
 ## 테스트 파일 만들기 
 
 `main.go` 파일을 만들고, [Getting Started](https://gin-gonic.com/docs/quickstart/#getting-started) 문서의 `example.go` 파일 내용을 복사합니다. 
