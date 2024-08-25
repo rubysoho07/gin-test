@@ -100,7 +100,8 @@ go get -u github.com/swaggo/files
 
 이후 내용은 [gin-swagger](https://github.com/swaggo/gin-swagger) 프로젝트의 문서 참조. 작성 규칙은 [링크](https://github.com/swaggo/swag/blob/master/README.md#declarative-comments-format) 참조
 
-실행하려면 `localhost:8080/swagger/index.html`으로 이동하면 됨
+* Swagger 문서를 다시 빌드하려면 `swag init` 명령을 실행할 것
+* 생성된 문서를 확인하려면 `localhost:8080/swagger/index.html`으로 이동
 
 ## DynamoDB 연동 테스트
 
