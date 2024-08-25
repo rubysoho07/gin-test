@@ -24,6 +24,13 @@ func InitDDBClient() {
 	}
 }
 
+// GetItem godoc
+// @Summary      DynamoDB 내 테이블에서 키를 이용하여 값을 가져옵니다.
+// @Description  DynamoDB 내 테이블에서 키를 이용하여 값을 가져옵니다.
+// @Tags         aws
+// @Produce      plain
+// @Success      200  {string}  string ""
+// @Router       /user/{key} [get]
 func GetItem(ctx *gin.Context) {
 	if ddbc == nil {
 		InitDDBClient()

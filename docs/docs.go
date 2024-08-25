@@ -58,6 +58,26 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/user/{key}": {
+            "get": {
+                "description": "DynamoDB 내 테이블에서 키를 이용하여 값을 가져옵니다.",
+                "produces": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "aws"
+                ],
+                "summary": "DynamoDB 내 테이블에서 키를 이용하여 값을 가져옵니다.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     }
 }`
