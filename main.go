@@ -9,6 +9,11 @@ import (
 
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+
+	"gin-test/internal/aws"
+	"gin-test/internal/cache"
+	"gin-test/internal/database"
+	"gin-test/internal/templates"
 )
 
 // PingExample godoc
@@ -27,16 +32,16 @@ func ping(g *gin.Context) {
 
 func main() {
 	// Connect to DB
-	ConnectDB()
+	database.ConnectDB()
 
-	defer db.Close()
+	defer database.CloseDb()
 
 	// Connect to Redis
-	ConnectRedis()
+	cache.ConnectRedis()
 
-	defer rdb.Close()
+	defer cache.CloseRedis()
 
-	InitAWS()
+	aws.InitAWS()
 
 	r := gin.Default()
 
@@ -47,32 +52,32 @@ func main() {
 
 	r.GET("/ping", ping)
 
-	r.GET("/list-buckets", ListBuckets)
-	r.GET("/get-temp-credential", GetAssumeRole)
+	r.GET("/list-buckets", aws.ListBuckets)
+	r.GET("/get-temp-credential", aws.GetAssumeRole)
 
 	group := r.Group("/database")
 	{
-		group.GET("/user/:id", GetData)
-		group.POST("/user/insert", InsertData)
-		group.POST("/user/delete/:id", DeleteData)
-		group.POST("/user/update/:id", UpdateData)
+		group.GET("/user/:id", database.GetData)
+		group.POST("/user/insert", database.InsertData)
+		group.POST("/user/delete/:id", database.DeleteData)
+		group.POST("/user/update/:id", database.UpdateData)
 	}
 
 	group_redis := r.Group("/redis")
 	{
-		group_redis.GET("/user/:key", GetDataFromRedis)
-		group_redis.POST("/user/insert", PutDataToRedis)
+		group_redis.GET("/user/:key", cache.GetDataFromRedis)
+		group_redis.POST("/user/insert", cache.PutDataToRedis)
 	}
 
 	group_ddb := r.Group("/dynamodb")
 	{
-		group_ddb.GET("/user/:key", GetItem)
-		group_ddb.POST("/user/insert", PutItem)
+		group_ddb.GET("/user/:key", aws.GetItem)
+		group_ddb.POST("/user/insert", aws.PutItem)
 	}
 
 	group_t := r.Group("/template")
 	{
-		group_t.POST("/ghaw", GetFileFromTemplate)
+		group_t.POST("/ghaw", templates.GetFileFromTemplate)
 	}
 
 	r.Run()

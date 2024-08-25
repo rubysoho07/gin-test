@@ -1,4 +1,4 @@
-package main
+package templates
 
 import (
 	"bytes"
@@ -25,7 +25,7 @@ func GetFileFromTemplate(c *gin.Context) {
 		return
 	}
 
-	tf, err := os.ReadFile("./template.txt")
+	tf, err := os.ReadFile("./ghaw_template.txt")
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

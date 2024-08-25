@@ -1,4 +1,4 @@
-package main
+package cache
 
 import (
 	"context"
@@ -32,6 +32,10 @@ func ConnectRedis() {
 		Password: "", // no password set
 		DB:       0,  // use default DB
 	})
+}
+
+func CloseRedis() {
+	rdb.Close()
 }
 
 func GetDataFromRedis(c *gin.Context) {

@@ -1,4 +1,4 @@
-package main
+package database
 
 import (
 	"database/sql"
@@ -37,6 +37,10 @@ func ConnectDB() {
 	if err != nil {
 		log.Println(err)
 	}
+}
+
+func CloseDb() {
+	db.Close()
 }
 
 func GetData(c *gin.Context) {
