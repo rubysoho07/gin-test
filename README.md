@@ -70,7 +70,7 @@ docker-compose up -d
 docker exec -i gin-test-mysql mysql  --password=example < test_data.sql
 ```
 
-CRUD 관련 내용은 `database.go` 파일 참조
+CRUD 관련 내용은 `internal/database/database.go` 파일 참조
 
 ## Redis 실행하기
 
@@ -82,7 +82,7 @@ go get github.com/redis/go-redis/v9
 
 * Docker Compose로 Redis를 실행할 수 있도록 해 둠
 
-관련 내용은 `redis_example.go` 파일 참조
+관련 내용은 `internal/cache/cache.go` 파일 참조
 
 ## Swagger 사용하기
 
@@ -133,6 +133,15 @@ aws dynamodb delete-table --table-name goni-test
 go get github.com/aws/aws-sdk-go-v2/service/dynamodb
 go get github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue
 ```
+
+## 빌드
+
+```shell
+cd cmd/my-gin
+go build 
+# my-gin 이라는 이름으로 실행 파일이 빌드됨
+```
+
 ### 확인하면 좋을 자료
 
 * [Getting started with DynamoDB and the AWS SDKS](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.html)
